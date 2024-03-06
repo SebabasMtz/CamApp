@@ -65,9 +65,9 @@ root.state('zoomed')
 fondo_inicio = tk.PhotoImage(file="./img/INICIO.png")
 fondo_inicio_label = tk.Label(root, image=fondo_inicio).place(x=0,y=0,relwidth=1,relheight=1)
 
-iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="hand2",command=video_camara,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=240,y=720)
+iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="hand2",command=video_camara,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=540,y=720)
 
-tomar_foto_btn = tk.Button(root, text="Tomar fotografía", bg="#32bea6",cursor="hand2",command=tomar_foto,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=540,y=720)
+tomar_foto_btn = tk.Button(root, text="Tomar fotografía", bg="#32bea6",cursor="hand2",command=tomar_foto,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=740,y=720)
 
 etiqueta_video = tk.Label(root,bg="white")
 etiqueta_video.place(x=520,y=225)
