@@ -32,13 +32,12 @@ def tomar_foto():
     global video
     ret, frame = video.read()
     if ret == True:
-        frame = imutils.resize(frame, width=640)
+        frame = imutils.resize(frame, width=700)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(frame)
         img_recortada = recortar_tamano_infantil(img)
         ventana_foto = tk.Toplevel(root)
         ventana_foto.title("Foto Capturada")
-
         img_tk_recortada = ImageTk.PhotoImage(img_recortada)
         etiqueta_foto_recortada = tk.Label(ventana_foto, image=img_tk_recortada)
         etiqueta_foto_recortada.image = img_tk_recortada
