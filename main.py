@@ -1,7 +1,9 @@
 import tkinter as tk
+from tkinter import filedialog 
 import cv2
 from PIL import Image, ImageTk
 import imutils
+
 
 video = None
 
@@ -36,12 +38,26 @@ def tomar_foto():
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(frame)
         img_recortada = recortar_tamano_infantil(img)
+
         ventana_foto = tk.Toplevel(root)
         ventana_foto.title("Foto Capturada")
+
         img_tk_recortada = ImageTk.PhotoImage(img_recortada)
         etiqueta_foto_recortada = tk.Label(ventana_foto, image=img_tk_recortada)
         etiqueta_foto_recortada.image = img_tk_recortada
         etiqueta_foto_recortada.pack()
+
+        btn_guardar = tk.Button(ventana_foto, text="Guardar", command=lambda: guardar_foto(img_recortada))
+        btn_guardar.pack(pady=10)
+
+        btn_repetir = tk.Button(ventana_foto, text="Repetir Fotografía", command=ventana_foto.destroy)
+        btn_repetir.pack(pady=10)
+
+def guardar_foto(img_recortada):
+    file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
+
+    if file_path:
+        img_recortada.save(file_path)
         
 root = tk.Tk()
 root.state('zoomed')
