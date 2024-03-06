@@ -32,8 +32,4 @@ iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",relief="f
 
 etiqueta_video = tk.Label(root,bg="white")
 etiqueta_video.place(x=520,y=225)
-
-
-
 root.mainloop()
-
