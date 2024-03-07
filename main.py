@@ -25,6 +25,17 @@ def iniciar():
         etiqueta_video.image = img_tk_recortada
         etiqueta_video.after(10, iniciar)
 
+def detener_video():
+    global video
+    if video is not None:
+        video.release()
+        etiqueta_video.configure(image="")
+        etiqueta_video.image = None
+
+def cerrar_ventana():
+    detener_video()
+    root.destroy()
+
 def recortar_tamano_infantil(imagen):
     x1, y1, x2, y2 = 80, 50, 475, 530
     imagen_recortada = imagen.crop((x1, y1, x2, y2))
@@ -66,9 +77,13 @@ root.state('zoomed')
 fondo_inicio = tk.PhotoImage(file="./img/INICIO.png")
 fondo_inicio_label = tk.Label(root, image=fondo_inicio).place(x=0,y=0,relwidth=1,relheight=1)
 
-iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="hand2",command=video_camara,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=540,y=720)
+iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="hand2",command=video_camara,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=340,y=720)
 
-tomar_foto_btn = tk.Button(root, text="Tomar fotografía", bg="#32bea6",cursor="hand2",command=tomar_foto,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=740,y=720)
+tomar_foto_btn = tk.Button(root, text="Tomar fotografía", bg="#32bea6",cursor="hand2",command=tomar_foto,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=540,y=720)
+
+detener_cam_btn = tk.Button(root, text="Detener Cámara", bg="#ff4500", cursor="hand2",command=detener_video, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=740, y=720)
+
+cerrar_btn = tk.Button(root, text="Cerrar Programa", bg="#ff4500", cursor="hand2",command=cerrar_ventana, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=940, y=720)
 
 etiqueta_video = tk.Label(root,bg="black")
 etiqueta_video.place(x=520,y=225)
