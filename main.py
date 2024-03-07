@@ -9,7 +9,7 @@ video = None
 
 def video_camara():
   global video
-  video = cv2.VideoCapture(1)
+  video = cv2.VideoCapture(1) #0 = EOS Cam // #1 = WebCam
   iniciar()
 
 def iniciar():
@@ -58,6 +58,7 @@ def guardar_foto(img_recortada):
 
     if file_path:
         img_recortada.save(file_path)
+
         
 root = tk.Tk()
 root.state('zoomed')
@@ -69,7 +70,7 @@ iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="h
 
 tomar_foto_btn = tk.Button(root, text="Tomar fotografía", bg="#32bea6",cursor="hand2",command=tomar_foto,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=740,y=720)
 
-etiqueta_video = tk.Label(root,bg="white")
+etiqueta_video = tk.Label(root,bg="black")
 etiqueta_video.place(x=520,y=225)
 
 root.mainloop()
