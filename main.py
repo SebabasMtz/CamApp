@@ -6,11 +6,27 @@ import imutils
 
 
 video = None
+is_on = False
 
 def video_camara():
   global video
   video = cv2.VideoCapture(1) #0 = EOS Cam // #1 = WebCam
+  etiqueta_cam.config(text="Usando cámara 1")
   iniciar()
+
+def cambiar_camara():
+    global video
+    global is_on
+    if is_on:
+        is_on = False
+        video = cv2.VideoCapture(1)
+        etiqueta_cam.config(text="Usando cámara 1")
+        iniciar()
+    else:
+        is_on = True
+        video = cv2.VideoCapture(0)
+        etiqueta_cam.config(text="Usando cámara 2")
+        iniciar()
 
 def iniciar():
   global video
@@ -85,7 +101,12 @@ detener_cam_btn = tk.Button(root, text="Detener Cámara", bg="#ff4500", cursor="
 
 cerrar_btn = tk.Button(root, text="Cerrar Programa", bg="#ff4500", cursor="hand2",command=cerrar_ventana, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=940, y=720)
 
+cambiar_cam_btn = tk.Button(root, text="Cambiar cámara", bg="#32bea6", cursor="hand2",command=cambiar_camara, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=1000, y=320)
+
+etiqueta_cam = tk.Label(root,text="Usando cámara 1",font=("Calisto MT",12,"bold"))
+etiqueta_cam.place(x=1015,y=400)
+
 etiqueta_video = tk.Label(root,bg="black")
-etiqueta_video.place(x=520,y=225)
+etiqueta_video.place(x=520,y=220)
 
 root.mainloop()
