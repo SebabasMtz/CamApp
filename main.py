@@ -3,36 +3,20 @@ from tkinter import filedialog
 import cv2
 from PIL import Image, ImageTk
 import imutils
-
+import ctypes
 
 video = None
-is_on = False
 
 def video_camara():
   global video
-  video = cv2.VideoCapture(1) #0 = EOS Cam // #1 = WebCam
-  etiqueta_cam.config(text="Usando cámara 1")
+  video = cv2.VideoCapture(0) #0 = EOS Cam // #1 = WebCam
   iniciar()
-
-def cambiar_camara():
-    global video
-    global is_on
-    if is_on:
-        is_on = False
-        video = cv2.VideoCapture(1)
-        etiqueta_cam.config(text="Usando cámara 1")
-        iniciar()
-    else:
-        is_on = True
-        video = cv2.VideoCapture(0)
-        etiqueta_cam.config(text="Usando cámara 2")
-        iniciar()
 
 def iniciar():
   global video
   ret, frame = video.read()
   if ret == True:
-        frame = imutils.resize(frame, width=700)
+        frame = imutils.resize(frame,width=950)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(frame)
         img_recortada = recortar_tamano_infantil(img)
@@ -61,7 +45,7 @@ def tomar_foto():
     global video
     ret, frame = video.read()
     if ret == True:
-        frame = imutils.resize(frame, width=700)
+        frame = imutils.resize(frame, width=950)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(frame)
         img_recortada = recortar_tamano_infantil(img)
@@ -85,28 +69,29 @@ def guardar_foto(img_recortada):
 
     if file_path:
         img_recortada.save(file_path)
-
+        
+def set_dpi_awareness():
+    try:
+        ctypes.windll.shcore.SetProcessDpiAwareness(1)  # DPI aware
+    except Exception as e:
+        print(f"Error setting DPI awareness: {e}")
         
 root = tk.Tk()
-root.state('zoomed')
+root.geometry('1000x650')
+set_dpi_awareness()
 
 fondo_inicio = tk.PhotoImage(file="./img/INICIO.png")
 fondo_inicio_label = tk.Label(root, image=fondo_inicio).place(x=0,y=0,relwidth=1,relheight=1)
 
-iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="hand2",command=video_camara,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=340,y=720)
+iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="hand2",command=video_camara,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=750,y=100)
 
-tomar_foto_btn = tk.Button(root, text="Tomar fotografía", bg="#32bea6",cursor="hand2",command=tomar_foto,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=540,y=720)
+tomar_foto_btn = tk.Button(root, text="Tomar fotografía", bg="#32bea6",cursor="hand2",command=tomar_foto,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=750,y=200)
 
-detener_cam_btn = tk.Button(root, text="Detener Cámara", bg="#ff4500", cursor="hand2",command=detener_video, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=740, y=720)
+detener_cam_btn = tk.Button(root, text="Detener Cámara", bg="#ff4500", cursor="hand2",command=detener_video, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=750, y=300)
 
-cerrar_btn = tk.Button(root, text="Cerrar Programa", bg="#ff4500", cursor="hand2",command=cerrar_ventana, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=940, y=720)
-
-cambiar_cam_btn = tk.Button(root, text="Cambiar cámara", bg="#32bea6", cursor="hand2",command=cambiar_camara, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=1000, y=320)
-
-etiqueta_cam = tk.Label(root,text="Usando cámara 1",font=("Calisto MT",12,"bold"))
-etiqueta_cam.place(x=1015,y=400)
+cerrar_btn = tk.Button(root, text="Cerrar Programa", bg="#ff4500", cursor="hand2",command=cerrar_ventana, width=15,height=3, font=("Calisto MT", 12, "bold")).place(x=750, y=400)
 
 etiqueta_video = tk.Label(root,bg="black")
-etiqueta_video.place(x=520,y=220)
+etiqueta_video.place(x=300,y=80)
 
 root.mainloop()
