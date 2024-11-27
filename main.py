@@ -6,10 +6,11 @@ import imutils
 import ctypes
 
 video = None
+camera_index = 0
 
 def video_camara():
   global video
-  video = cv2.VideoCapture(0) #0 = EOS Cam // #1 = WebCam
+  video = cv2.VideoCapture(camera_index) #0 = EOS Cam // #1 = WebCam
   iniciar()
 
 def iniciar():
@@ -79,9 +80,6 @@ def set_dpi_awareness():
 root = tk.Tk()
 root.geometry('1000x650')
 set_dpi_awareness()
-
-fondo_inicio = tk.PhotoImage(file="./img/INICIO.png")
-fondo_inicio_label = tk.Label(root, image=fondo_inicio).place(x=0,y=0,relwidth=1,relheight=1)
 
 iniciar_cam_btn = tk.Button(root, text="Iniciar Cámara", bg="#32bea6",cursor="hand2",command=video_camara,width=15,height=3,font=("Calisto MT",12,"bold")).place(x=750,y=100)
 
