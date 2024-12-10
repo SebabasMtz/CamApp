@@ -9,7 +9,7 @@ from PIL import ImageGrab
 import win32clipboard
 
 video = None
-camera_index = 1
+camera_index = 0
 
 def video_camara():
     global video
