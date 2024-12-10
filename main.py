@@ -4,20 +4,23 @@ import cv2
 from PIL import Image, ImageTk
 import imutils
 import ctypes
+import io
+from PIL import ImageGrab
+import win32clipboard
 
 video = None
-camera_index = 0
+camera_index = 1
 
 def video_camara():
-  global video
-  video = cv2.VideoCapture(camera_index) #0 = EOS Cam // #1 = WebCam
-  iniciar()
+    global video
+    video = cv2.VideoCapture(camera_index)  # 0 = EOS Cam // 1 = WebCam
+    iniciar()
 
 def iniciar():
-  global video
-  ret, frame = video.read()
-  if ret == True:
-        frame = imutils.resize(frame,width=950)
+    global video
+    ret, frame = video.read()
+    if ret:
+        frame = imutils.resize(frame, width=950)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(frame)
         img_recortada = recortar_tamano_infantil(img)
@@ -45,7 +48,7 @@ def recortar_tamano_infantil(imagen):
 def tomar_foto():
     global video
     ret, frame = video.read()
-    if ret == True:
+    if ret:
         frame = imutils.resize(frame, width=950)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(frame)
@@ -64,6 +67,20 @@ def tomar_foto():
 
         btn_repetir = tk.Button(ventana_foto, text="Repetir Fotografía", command=ventana_foto.destroy)
         btn_repetir.pack(pady=10)
+
+        btn_copiar = tk.Button(ventana_foto, text="Copiar al Portapapeles", command=lambda: copiar_al_portapapeles(img_recortada))
+        btn_copiar.pack(pady=10)
+
+def copiar_al_portapapeles(imagen):
+    output = io.BytesIO()
+    imagen.convert("RGB").save(output, format="BMP")
+    data = output.getvalue()[14:]  # Saltar el header de BMP
+    output.close()
+    
+    win32clipboard.OpenClipboard()
+    win32clipboard.EmptyClipboard()
+    win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
+    win32clipboard.CloseClipboard()
 
 def guardar_foto(img_recortada):
     file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
